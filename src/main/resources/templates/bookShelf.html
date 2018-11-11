@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<div th:replace="common/header :: navbar" />
+
+	<div class="container">
+		<div class="row" style="margin-bottom: -100px">
+			<div class="col-xs-8">
+				<h2 class="section-headline">
+					<span th:text="${user}? ${#strings.toUpperCase(user.username)} : 'All Books' "></span>
+				</h2>
+			</div>
+
+			<div class="col-xs-4">
+				<img class="img-responsive" src="./image/logo.png" />
+			</div>
+		</div>
+		<hr
+			style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -65px">
+		<img class="img-responsive" src="./image/wood.png"
+			style="margin-top: -75px;" />
+
+
+		<div class="row" style="margin-top: 90px;">
+			<div class="col-xs-9 col-xs-offset-3">
+				<div th:if="${EmptyList}">
+					<h2 style="font-style:italic;">Oops, no books found</h2>
+				</div>
+
+				<table border="0" id="bookList">
+					<thead>
+						<tr>
+							<th></th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr class="book-item" data-th-each="book : ${bookList}">
+						  
+							<td>
+							 <div class="col-xs-9 col-xs-offset-3" th:if="book == null"><h2>No books found</h2></div>
+								<div th:if="book != null">
+									<div class="row">
+										<div class="col-xs-3">
+										 
+										<a th:href="@{/bookDetails?id=}+${book.id}"><img class="img-responsive" alt ="book-img" style="margin-bottom: 40px;
+										         width:550px;    height: 380px;"
+											  th:src="'http://localhost:8081/adminPortal'+@{/image/book/}+${book.id}+'.png'" /></a>
+										</div>
+										<div class="col-xs-9">
+										
+										<a th:href="@{/bookDetails?id=}+${book.id}"><p style="font-size: 20px;font-family:tahoma; display:inline;color:#8e65d0">Title :	
+										<h4 th:text="${book.title}" style="font-size:20px; display:inline; color:black"></h4></p></a>
+										
+											
+										<a th:href="@{/bookDetails?id=}+${book.id}"><p style="font-size:20px; color:#8e65d0">Author :	
+										<span style="font:-size:20px;color:black" th:text="${book.Author}"></span></p></a>
+										 
+										<p style="font-size:20px; color:#8e65d0">Langauge :	
+										<span style="font:-size:20px;color:black" th:text="${book.langauge}"></span></p>
+											
+										<p style="font-size:20px ; color:#8e65d0">Category :	
+										<span style="font:-size:20px;color:black" th:text="${book.category}"></span></p>
+										
+										<p style="font-size:20px ; color:#8e65d0">Publication Date :	
+										<span style="font:-size:20px;color:black" th:text="${book.PublicationDate}"></span></p>
+										
+										<a th:href="@{/bookDetails?id=}+${book.id}"><p style="font-size:20px ; color:#8e65d0">Publisher  :	
+										<span style="font:-size:20px; color:black" th:text="${book.publisher}"></span></p></a>
+											
+										<p style="font-size:30px; display:inline;margin-right:5px;color:red"><span style="font-size:30px; margin-right:2px;color:red" 
+										    th:text="${#numbers.formatDecimal(book.OurPrice , 0 , 'COMMA' , 2 , 'POINT')}" ></span>$</p>
+										    
+										<p style="display: inline"><span style="font-size:15px;text-decoration:line-through" 
+										 th:text="${#numbers.formatDecimal(book.ListPrice , 0 , 'COMMA' , 2 , 'POINT')}"></span>$</p>
+										
+										<p style="font-size:20px;margin-top:10px ; color:#8e65d0">Number of Pages  :	
+										<span style="font:-size:20px; color:black" th:text="${book.NumberOfPages}"> </span> pages</p>
+										 <br>
+										<span style="font-size:20px; font-weight:bold ;" >Description : 	
+										  <p style="font-size:20px;  display:inline;color:black" th:utext="${#strings.abbreviate(book.description , 500)}"></p> </span>
+										  <br><br>
+										</div>
+
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+
+				</table>
+
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- end of container -->
+
+
+	<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>

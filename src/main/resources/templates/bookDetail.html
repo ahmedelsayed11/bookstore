@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1000/xhtml">
+<head th:replace="common/header :: common-header" />
+
+<body>
+	<div th:replace="common/header :: navbar" />
+
+	<div class="container">
+		<div class="row" style="margin-bottom: -100px">
+			<div class="col-xs-8">
+				<h2 class="section-headline">
+					<span th:text="${user}? ${#strings.toUpperCase(user.username)} : 'All Books' "></span>
+				</h2>
+			</div>
+
+			<div class="col-xs-4">
+				<img class="img-responsive" src="./image/logo.png" />
+			</div>
+		</div>
+		<hr
+			style="position: absolute; width: 100%; height: 6px; background-color: #333; z-index: -1; margin-top: -65px">
+		<img class="img-responsive" src="./image/wood.png"
+			style="margin-top: -75px;" />
+
+		<form th:action="@{/shoppingCart/addItem}" method="post">
+			<input type="hidden" name="id" th:value="${book.id}" />
+			<div class="row" style="margin-top: 120px">
+				<div class="col-xs-3">
+					<a th:href="@{/bookShelf}">Back to book list</a> <img
+						style="width: 245px; height: 300px;"
+						th:src="'http://localhost:8081/adminPortal'+@{/image/book/}+${book.id}+'.png'">
+				</div>
+
+				<div class="col-xs-9">
+					<h3 th:text="${book.title}">Book Title</h3>
+					<div class="row">
+						<div class="col-xs-5">
+							<h5>
+								<strong>Author:</strong><span th:text="${book.Author}"></span>
+							</h5>
+							<p>
+								<strong>Publisher:</strong><span th:text="${book.publisher}"></span>
+							</p>
+							<p>
+								<strong>Publication Date:</strong><span
+									th:text="${book.PublicationDate}"></span>
+							</p>
+							<p>
+								<strong>Langauge:</strong><span th:text="${book.langauge}"></span>
+							</p>
+							<p>
+								<strong>Category:</strong><span th:text="${book.category}"></span>
+							</p>
+							<p>
+								<strong></strong><span th:text="${#strings.toUpperCase(book.format)}"></span>
+							</p>
+							<p>
+								<strong></strong><span th:text="${book.NumberOfPages}"></span> pages
+							</p>
+							<p>
+								<strong>ISBN: </strong><span th:text="${book.ISBN}"></span> 
+							</p>
+							<p>
+								<strong>Shipping Weight: </strong><span
+									th:text="${book.ShippingWeight}"></span>gram
+							</p>
+						</div>
+						<div class="col-xs-7">
+							<div class="panel panel-default">
+								<div class="panel-body">
+									<div class="row">
+										<div class="col-xs-6">
+											<h4>
+												our price: <span style="color: #db3208">$ <span
+													th:text="${book.OurPrice}"></span></span>
+											</h4>
+
+											<p>
+												list price: <span style="text-decoration: line-through">$
+													<span th:text="${book.ListPrice}"></span>
+												</span>
+											</p>
+
+											<p>
+												you save: <span>$ <span
+													th:text="${#numbers.formatDecimal(book.ListPrice-book.OurPrice , 0 , 'COMMA' , 2 , 'POINT')}">
+												</span></span>
+											</p>
+
+											<span>Qty:</span> <select name="qty">
+												<option th:each="qty : ${qtyList}" th:value="${qty}"
+													th:text="${qty}"></option>
+											</select>
+
+										</div>
+
+										<div class="col-xs-6">
+											<h4 th:if="*{book.inStockNumber&gt;10}" style="color: green;">
+												In stock</h4>
+											<h4
+												th:if="*{book.inStockNumber&lt;10 and book.inStockNumber&gt;0}"
+												style="color: green;">
+												Only <span th:text="${book.inStockNumber}"></span> in stock
+											</h4>
+
+											<h4 th:if="*{book.inStockNumber==0}" style="color: darked;">
+												Unavailable</h4>
+
+											<button type="submit" class="btn btn-warning"
+												style="color: black; border: 1px solid black; padding: 10px 40px;">
+												Add to cart</button>
+
+										</div>
+
+									</div>
+								</div>
+
+							</div>
+
+						</div>
+					</div>
+
+					<hr>
+					<p th:utext="${book.description}"></p>
+
+				</div>
+			</div>
+	</div>
+
+	</form>
+
+	</div>
+
+
+	<!-- end of container -->
+
+
+	<div th:replace="common/header :: body-bottom-scripts" />
+</body>
+</html>
